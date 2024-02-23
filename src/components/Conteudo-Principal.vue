@@ -10,7 +10,7 @@ export default {
 
     data() {
        return {
-        ingredientes: ['alho', 'cebola', 'tomate']
+        ingredientes: [] as string[]
        }
      
     },
@@ -36,7 +36,7 @@ export default {
 
            
         </section>
-        <SelecionarIngredientes/>
+        <SelecionarIngredientes @adicionaringrediente="ingredientes.push($event)"/>
     </main>
 </template>
 
