@@ -9,20 +9,23 @@ import ComponenteSelececionavel from './ComponenteSelececionavel.vue';
         categoria: { type: Object as PropType<ICategoria>, required: true }
     },
     components: { ComponenteSelececionavel },
-    emits:['adicionaringrediente']
+    emits:['adicionaringrediente','removerIngrediente']
 }
 </script>
 
 <template>
     <article class="categoria">
         <header class="categoria__cabecalho">
-            <img class="categoria__imagem" :src="`../assets/images/${categoria.imagem}`" :alt="`ícone de ${categoria.imagem}`">
+            <img class="categoria__imagem" :src="`/src/assets/images/${categoria.imagem}`" :alt="`ícone de ${categoria.imagem}`">
 
             <h2 class="categoria__nome">{{ categoria.nome }}</h2>
         </header>
         <ul class="categoria__ingredientes" >
             <li v-for="ingrediente in categoria.ingredientes" :key="ingrediente">
-                <ComponenteSelececionavel @adicionaringrediente="$emit('adicionaringrediente',$event)"  :ingrediente="ingrediente"/>
+                <ComponenteSelececionavel 
+                @adicionaringrediente="$emit('adicionaringrediente',$event)" 
+                @remover-ingrediente="$emit('removerIngrediente', $event )"
+                 :ingrediente="ingrediente"/>
             </li>
         </ul>
     </article>

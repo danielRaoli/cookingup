@@ -1,21 +1,37 @@
 
 <script lang="ts">
 
-    import SelecionarIngredientes from './SelecionarIngredientes.vue' 
+import type { PackageJsonInfoCache } from 'typescript';
+import SelecionarIngredientes from './SelecionarIngredientes.vue'
 import Tag from './Tag.vue';
+import  MostrarReceitasVue from './MostrarReceitas.vue';
+
+
+type Pagina = 'SelecionarIngredientes' | 'MostrarReceita';
 
 export default {
 
-   
+    
 
     data() {
-       return {
-        ingredientes: [] as string[]
-       }
-     
-    },
+        return {
+            ingredientes: [] as string[],
+            conteudo: 'SelecionarIngredientes' as Pagina
+        }
 
-    components: { SelecionarIngredientes, Tag }, 
+    },
+    components: { SelecionarIngredientes, Tag, MostrarReceitasVue },
+    methods: {
+        adicionarIngrediente(ingrediente: string) {
+            this.ingredientes.push(ingrediente);
+        },
+        removerIngrediente(ingrediente : string){
+            this.ingredientes = this.ingredientes.filter(li => li !== ingrediente)
+        },
+        navegar(conteudo : Pagina){
+            this.conteudo = conteudo
+        }
+    }
 }
 </script>
 
@@ -23,9 +39,9 @@ export default {
     <main class="conteudo-principal">
         <section>
             <span class="subtitulo-lg sua-lista-texto">Sua Lista:</span>
-            <ul v-if="ingredientes.length" class="ingredientes-sua-lista" >
-                <li class="ingrediente" v-for="ingrediente in ingredientes"  :key="ingrediente">
-                    <Tag :ingrediente="ingrediente" :ativa="true" :key="ingrediente"/>
+            <ul v-if="ingredientes.length" class="ingredientes-sua-lista">
+                <li class="ingrediente" v-for="ingrediente in ingredientes" :key="ingrediente">
+                    <Tag :ingrediente="ingrediente" :ativa="true" :key="ingrediente" />
                 </li>
             </ul>
 
@@ -34,9 +50,16 @@ export default {
                 sua lista está vazia selecione algum ingrediente
             </p>
 
-           
+
         </section>
-        <SelecionarIngredientes @adicionaringrediente="ingredientes.push($event)"/>
+        <KeepAlive>
+        <SelecionarIngredientes v-if="conteudo === 'SelecionarIngredientes'"
+        @adicionaringrediente="adicionarIngrediente($event)"
+         @removerIngrediente="removerIngrediente($event)"
+         @buscarReceitas="navegar('MostrarReceita')"/>
+        
+            <MostrarReceitasVue :ingredientes="ingredientes" v-else-if="conteudo === 'MostrarReceita'" @editarReceita="navegar('SelecionarIngredientes')"/>
+        </KeepAlive>
     </main>
 </template>
 

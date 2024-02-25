@@ -16,11 +16,13 @@ import Tag from './Tag.vue';
             this.selecionado = !this.selecionado;
             if(this.selecionado){
                 this.$emit('adicionaringrediente', this.ingrediente)
+            }else{
+                this.$emit('removerIngrediente', this.ingrediente)
             }
         }
 
     },
-    emits:['adicionaringrediente'],
+    emits:['adicionaringrediente', 'removerIngrediente'],
     components: { Tag }
 }
 
