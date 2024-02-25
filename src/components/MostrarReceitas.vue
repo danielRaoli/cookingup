@@ -1,6 +1,6 @@
 <script lang="ts">
 import type IReceita from '@/Interfaces/IReceita';
-import { FiltrarReceita } from '@/operacoes/operacaoreceitas'
+import { FiltrarReceita } from '@/Operacoes/operacaoreceitas'
 import type { PropType } from 'vue';
 import BotaoPrincipal from './BotaoPrincipal.vue';
 import { ObterReceitas } from '@/http';
